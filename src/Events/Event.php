@@ -67,10 +67,15 @@ abstract class Event
      */
     public static function fire(array $data)
     {
-        $event = Str::studly($data['alert_name']);
+        if(array_key_exists('alert_name', $data)) {
+            $event = Str::studly($data['alert_name']);
 
-        $eventClass = __NAMESPACE__ . '\\' . $event;
+            $eventClass = __NAMESPACE__ . '\\' . $event;
+        } else {
+            $eventClass = __NAMESPACE__ . '\\ProductFulfillment';
+        }
 
         event(new $eventClass($data));
+        
     }
 }
